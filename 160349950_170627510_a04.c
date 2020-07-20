@@ -3,14 +3,17 @@
 #include <unistd.h>
 
 // Get from user input
-int m = 5;
-int n = 5;
-
-int available[m];
-int max[n][m];
-int allocation[n][m];
-int need[n][m];
 
 int request_res();
 int release_res();
 int safety_algorithm();
+
+int main(int argc, char* argv[]) {
+    int m = argc - 1;
+    int n = 5;  // idk what this does
+
+    int available[m];
+    int max[n][m];
+    int allocation[n][m];
+    int need[n][m];
+}

@@ -77,19 +77,26 @@ int readFile(char* fileName) {  //, int* maximum[]) {
         return -1;
     }
 
-    //int int_test;
+    int i, j, n;
     const char delim[2] = ",";
     char* token;
 
     char line[10];
+    i = 0;
     while (fgets(line, sizeof(line), in)) {
+        j = 1;
         //printf("%s", line);
         token = strtok(line, delim);
         while (token != NULL) {
-            printf(" %s", token);
+            //printf(" %s", token);
+            n = atoi(token);
+            maximum[i][j] = n;
+            j++;
+            printf("%d ", maximum[i][j]);
             token = strtok(NULL, delim);
         }
+        maximum[i][0] = j;
+        i++;
     }
-
     return 0;
 }

@@ -6,7 +6,7 @@
 void request_res(int, int, int, int);
 void release_res(int, int, int, int);
 int safety_algorithm();
-int read_file();
+int readFile(char* fileName);
 
 int main(int argc, char* argv[]) {
     int resource_count = argc - 1;
@@ -34,15 +34,37 @@ int main(int argc, char* argv[]) {
         printf(" %d", available[x]);
     }
 
-    // TODO: Actually read input data
-    printf("\nMaximum resources from file:\n");
-    for (int x = 0; x < customer_count; x++) {
-        for (int i = 0; i < resource_count; i++) {
-            printf("%d", maximum[x][i]);
-            if (i + 1 < resource_count) printf(",");
+    int readFile(char* fileName) {
+        FILE* in = fopen(fileName, "r");
+        if (!in) {
+            printf("Error in opening input file...exiting with error code -1\n");
+            return -1;
         }
-        printf("\n");
+        int i, j;
+
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 4; j++) {
+                fscanf(in, " %c", &maximum[i][j]);
+            }
+        }
+        // Testing
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 4; j++) {
+                printf(" %c", maximum[i][j]);
+            }
+        }
+        return 0;
     }
+
+    // TODO: Actually read input data
+    // printf("\nMaximum resources from file:\n");
+    // for (int x = 0; x < customer_count; x++) {
+    //     for (int i = 0; i < resource_count; i++) {
+    //         printf("%d", maximum[x][i]);
+    //         if (i + 1 < resource_count) printf(",");
+    //     }
+    //     printf("\n");
+    // }
 
     // for (int x = 0; x < customer_count; x++) {
     //     for (int i = 0; i < resource_count; i++) {

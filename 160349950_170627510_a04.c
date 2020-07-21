@@ -6,7 +6,7 @@
 void request_res(int, int, int, int);
 void release_res(int, int, int, int);
 int safety_algorithm();
-int readFile(char* fileName);
+int readFile(char* fileName);  //, int* maximum[]);
 
 int main(int argc, char* argv[]) {
     int resource_count = argc - 1;
@@ -20,8 +20,8 @@ int main(int argc, char* argv[]) {
 
     int available[resource_count];
     int maximum[customer_count][resource_count];
-    readFile("sample4_in.txt");
-    printf("%d", maximum[0][1]);
+    readFile("sample4_in.txt");  //, maximum);
+    printf("\n\n%d\n", maximum[0][1]);
     // int maximum[][4] = {
     //     {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
     // int allocation[customer_count][resource_count];
@@ -70,24 +70,26 @@ int main(int argc, char* argv[]) {
     */
 }
 
-int readFile(char* fileName) {
+int readFile(char* fileName) {  //, int* maximum[]) {
     FILE* in = fopen(fileName, "r");
     if (!in) {
         printf("Error in opening input file...exiting with error code -1\n");
         return -1;
     }
-    int i, j;
 
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < 4; j++) {
-            fscanf(in, " %c", &maximum[i][j]);
+    //int int_test;
+    const char delim[2] = ",";
+    char* token;
+
+    char line[10];
+    while (fgets(line, sizeof(line), in)) {
+        //printf("%s", line);
+        token = strtok(line, delim);
+        while (token != NULL) {
+            printf(" %s", token);
+            token = strtok(NULL, delim);
         }
     }
-    // Testing
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < 4; j++) {
-            printf(" %c", maximum[i][j]);
-        }
-    }
+
     return 0;
 }

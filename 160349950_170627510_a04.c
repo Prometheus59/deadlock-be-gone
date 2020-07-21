@@ -10,6 +10,11 @@ int read_file();
 int main(int argc, char* argv[]) {
     int resource_count = argc - 1;
     int customer_count = 5;
+
+    // User input
+    char cmd[3];
+    int cmd_res[4];
+
     int available[resource_count];
     // int max[customer_count][resource_count] = {
     int max[][4] = {
@@ -41,5 +46,9 @@ int main(int argc, char* argv[]) {
     //         allocation[x][i] = 0;
     //     }
     // }
-}
+    printf("Enter Command: ");
+    scanf("%s %d %d %d %d", cmd, &cmd_res[0], &cmd_res[1], &cmd_res[2], &cmd_res[3]);
 
+    printf("Entered Name: %s\n", cmd);
+    printf("%d\n", cmd_res[2]);
+}

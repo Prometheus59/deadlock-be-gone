@@ -1,23 +1,28 @@
 #### CP386 - Assignment 4: Deadlock-Be-Gone
 In this assignmnet we try to practice the concept of deadlock avoidance. 
 
-##### Motivation: 
+#### Motivation: 
 
-##### Intstallation:
+#### Intstallation:
 
-##### Screenshots:
+#### Screenshots:
 
-##### Contribution:
+#### Contribution:
 
-##### Features:
+#### Features:
 
-##### Tests:
+#### Tests:
 
-##### Code Example:
+#### Code Example:
 
-##### Authors:
-Ryan Karumanchery 160349950
-Ramandeep Saini  170627510
-##### Credits:
+#### Authors:
+Ryan Karumanchery
 
-##### License:
+Ramandeep Saini
+
+#### Credits:
+
+#### License:
+MIT License
+
+Copyright (c) [2020] [Ryan Karumanchery, Ramandeep Saini]

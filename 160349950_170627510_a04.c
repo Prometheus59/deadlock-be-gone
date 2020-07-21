@@ -5,14 +5,14 @@
 int request_res();
 int release_res();
 int safety_algorithm();
-int read_file();
+int readFile(char* fileName);
 
 int main(int argc, char* argv[]) {
     int resource_count = argc - 1;
     int customer_count = 5;
 
     int available[resource_count];
-    int max[customer_count][resource_count];
+    int maximum[customer_count][resource_count];
     // int allocation[customer_count][resource_count];
     // int need[customer_count][resource_count];
 
@@ -42,3 +42,25 @@ int main(int argc, char* argv[]) {
     // }
 }
 
+int readFile(char* fileName) {
+
+    FILE *in = fopen(fileName, "r");
+	if(!in) {
+		printf("Error in opening input file...exiting with error code -1\n");
+		return -1;
+	}
+    int i, j;
+
+    for(i = 0; i < 5; i++) {
+        for(j = 0; j < 4; j++) {
+            fscanf(in," %c", &maximum[i][j]);
+        }
+    }
+    // Testing 
+    for(i = 0; i < 5; i++) {
+        for(j = 0; j < 4; j++) {
+            printf(" %c", maximum[i][j]);
+        }
+    }
+    return 0;
+}

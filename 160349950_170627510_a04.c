@@ -2,25 +2,42 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-// Get from user input
-
 int request_res();
 int release_res();
 int safety_algorithm();
+int read_file();
 
 int main(int argc, char* argv[]) {
     int resource_count = argc - 1;
-    // int customer_count = 5;
+    int customer_count = 5;
 
     int available[resource_count];
+    int max[customer_count][resource_count];
+    // int allocation[customer_count][resource_count];
+    // int need[customer_count][resource_count];
+
+    printf("Number of Customers: %d\n", customer_count);
+
+    // Initialize Data
     for (int x = 0; x < resource_count; x++) {
         int num = strtol(argv[x + 1], NULL, 10);
         available[x] = num;
+        //printf("%d", num);
     }
-    for (int x = 0; x < resource_count; x++) {
-        printf("%d\n", available[x]);
+
+    printf("Maximum resources from file:\n");
+    for (int x = 0; x < customer_count; x++) {
+        for (int i = 0; i < resource_count; i++) {
+            max[x][i] = available[i];
+            printf("%d", max[x][i]);
+            if (i + 1 < resource_count) printf(",");
+        }
+        printf("\n");
     }
-    // int max[customer_count][resource_count];
-    // int allocation[customer_count][resource_count];
-    // int need[customer_count][resource_count];
+
+    // for (int x = 0; x < customer_count; x++) {
+    //     for (int i = 0; i < resource_count; i++) {
+    //         allocation[x][i] = 0;
+    //     }
+    // }
 }

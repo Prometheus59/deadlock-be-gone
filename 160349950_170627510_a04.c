@@ -13,14 +13,15 @@ int main(int argc, char* argv[]) {
     int customer_count = 5;
 
     // User input
-    char cmd[3];
-    int cmd_res[4];
-    char req[] = "RQ";
-    char rel[] = "RL";
+    // char cmd[3];
+    // int cmd_res[4];
+    // char req[] = "RQ";
+    // char rel[] = "RL";
 
     int available[resource_count];
     int maximum[customer_count][resource_count];
     readFile("sample4_in.txt");
+    printf("%d", maximum[0][1]);
     // int maximum[][4] = {
     //     {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
     // int allocation[customer_count][resource_count];
@@ -50,6 +51,7 @@ int main(int argc, char* argv[]) {
     //         allocation[x][i] = 0;
     //     }
     // }
+    /*
     while (1) {
         printf("Enter Command: ");
         scanf("%s %d %d %d %d", cmd, &cmd_res[0], &cmd_res[1], &cmd_res[2], &cmd_res[3]);
@@ -65,6 +67,7 @@ int main(int argc, char* argv[]) {
             printf("ya dun fucked up now\n");
         }
     }
+    */
 }
 
 int readFile(char* fileName) {

@@ -19,9 +19,10 @@ int main(int argc, char* argv[]) {
     char rel[] = "RL";
 
     int available[resource_count];
-    // int maximum[customer_count][resource_count] = {
-    int maximum[][4] = {
-        {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
+    int maximum[customer_count][resource_count];
+    readFile("sample4_in.txt");
+    // int maximum[][4] = {
+    //     {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
     // int allocation[customer_count][resource_count];
     // int need[customer_count][resource_count];
 
@@ -32,28 +33,6 @@ int main(int argc, char* argv[]) {
         int num = strtol(argv[x + 1], NULL, 10);
         available[x] = num;
         printf(" %d", available[x]);
-    }
-
-    int readFile(char* fileName) {
-        FILE* in = fopen(fileName, "r");
-        if (!in) {
-            printf("Error in opening input file...exiting with error code -1\n");
-            return -1;
-        }
-        int i, j;
-
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 4; j++) {
-                fscanf(in, " %c", &maximum[i][j]);
-            }
-        }
-        // Testing
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 4; j++) {
-                printf(" %c", maximum[i][j]);
-            }
-        }
-        return 0;
     }
 
     // TODO: Actually read input data
@@ -86,4 +65,26 @@ int main(int argc, char* argv[]) {
             printf("ya dun fucked up now\n");
         }
     }
+}
+
+int readFile(char* fileName) {
+    FILE* in = fopen(fileName, "r");
+    if (!in) {
+        printf("Error in opening input file...exiting with error code -1\n");
+        return -1;
+    }
+    int i, j;
+
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 4; j++) {
+            fscanf(in, " %c", &maximum[i][j]);
+        }
+    }
+    // Testing
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 4; j++) {
+            printf(" %c", maximum[i][j]);
+        }
+    }
+    return 0;
 }

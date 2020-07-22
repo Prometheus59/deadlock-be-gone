@@ -21,12 +21,12 @@ int main(int argc, char* argv[]) {
 
     int available[resource_count];
     //int maximum[customer_count][resource_count];
-    //readFile("sample4_in.txt");  //, maximum);
+    // readFile("sample4_in.txt");  //, maximum);
     // printf("\n\n%d\n", maximum[0][1]);
     int maximum[][4] = {
         {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
     int allocation[customer_count][resource_count];
-    // int need[customer_count][resource_count];
+    int need[customer_count][resource_count];
 
     printf("Number of Customers: %d\n", customer_count);
     printf("Currently Available Resources: ");
@@ -50,10 +50,12 @@ int main(int argc, char* argv[]) {
     for (int x = 0; x < customer_count; x++) {
         for (int i = 0; i < resource_count; i++) {
             allocation[x][i] = 0;
+            need[x][i] = maximum[x][i];
             printf("%d", allocation[x][i]);
+            printf("%d", need[x][i]);
         }
     }
-    printf("\n");
+    printf(" <-- Ignore this number\n");
 
     while (1) {
         printf("Enter Command: ");
@@ -65,9 +67,9 @@ int main(int argc, char* argv[]) {
         if (strcmp(cmd, req) == 0) {
             request_res(cmd_res);
         } else if (strcmp(cmd, rel) == 0) {
-            //release_res(cmd_res[0], cmd_res[1], cmd_res[2], cmd_res[3]);
+            release_res(cmd_res);
         } else {
-            printf("Try again\n");
+            printf("Invalid command!\nPlease enter RQ to request resources or RL to release resources\n");
         }
     }
 }
@@ -96,6 +98,8 @@ int readFile(char* fileName) {  //, int* maximum[]) {
 }
 
 void request_res(int cmd_res[]) {
+    // Safety algorithm to decide if request is satisfied
+    // Fills the allocation array
     printf("Test resource request\n");
 }
 

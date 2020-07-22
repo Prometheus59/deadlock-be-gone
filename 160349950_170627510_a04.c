@@ -5,6 +5,8 @@
 
 void request_res(int cmd_res[]);
 void release_res(int cmd_res[]);
+void run();
+void output_data();
 int safety_algorithm();
 int readFile(char* fileName);  //, int* maximum[]);
 
@@ -18,6 +20,8 @@ int main(int argc, char* argv[]) {
     int cmd_res[4];
     char req[] = "RQ";
     char rel[] = "RL";
+    char execute[] = "Run";
+    char star[] = "*";
 
     int available[resource_count];
     //int maximum[customer_count][resource_count];
@@ -30,7 +34,8 @@ int main(int argc, char* argv[]) {
 
     printf("Number of Customers: %d\n", customer_count);
     printf("Currently Available Resources: ");
-    // Initialize Data
+
+    // Initialize Data from command line
     for (int x = 0; x < resource_count; x++) {
         int num = strtol(argv[x + 1], NULL, 10);
         available[x] = num;
@@ -47,16 +52,19 @@ int main(int argc, char* argv[]) {
         printf("\n");
     }
 
+    // Initialize allocation/need arrays
     for (int x = 0; x < customer_count; x++) {
         for (int i = 0; i < resource_count; i++) {
             allocation[x][i] = 0;
             need[x][i] = maximum[x][i];
+            // TODO: Remove these print statements eventually
             printf("%d", allocation[x][i]);
             printf("%d", need[x][i]);
         }
     }
     printf(" <-- Ignore this number\n");
 
+    // Main function loop
     while (1) {
         printf("Enter Command: ");
         scanf("%s %d %d %d %d", cmd, &cmd_res[0], &cmd_res[1], &cmd_res[2], &cmd_res[3]);
@@ -68,6 +76,10 @@ int main(int argc, char* argv[]) {
             request_res(cmd_res);
         } else if (strcmp(cmd, rel) == 0) {
             release_res(cmd_res);
+        } else if (strcmp(cmd, execute) == 0) {
+            run();
+        } else if (strcmp(cmd, star) == 0) {
+            output_data();
         } else {
             printf("Invalid command!\nPlease enter RQ to request resources or RL to release resources\n");
         }
@@ -86,8 +98,10 @@ int readFile(char* fileName) {  //, int* maximum[]) {
     char* token;
 
     char line[10];
+    // Read file line by line
     while (fgets(line, sizeof(line), in)) {
         //printf("%s", line);
+        // Read file char by char
         token = strtok(line, delim);
         while (token != NULL) {
             printf(" %s", token);
@@ -97,12 +111,26 @@ int readFile(char* fileName) {  //, int* maximum[]) {
     return 0;
 }
 
+/*
+Requests Resources
+Safety algorithm to decide if request is satisfied
+Fills the allocation array, modifies need array?
+*/
 void request_res(int cmd_res[]) {
-    // Safety algorithm to decide if request is satisfied
-    // Fills the allocation array
     printf("Test resource request\n");
 }
 
+/*
+Releases resources
+*/
 void release_res(int cmd_res[]) {
     printf("Test resource release\n");
+}
+
+void run() {
+    printf("Run function here\n");
+}
+
+void output_data() {
+    printf("Output data here\n");
 }

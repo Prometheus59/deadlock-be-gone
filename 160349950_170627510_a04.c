@@ -7,11 +7,11 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
 int release_res(int cmd_res[]);
 void run();
 void output_data();
-int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[res_count], int maximum[][4]);
+int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]);
 int readFile(char* fileName);  //, int* maximum[]);
 
 int main(int argc, char* argv[]) {
-    int resource_count = argc - 2;
+    int resource_count = argc - 1;
     printf("Resource count is %d\n", resource_count);
     int customer_count = 5;
 
@@ -118,7 +118,12 @@ Fills the allocation array, modifies need array?
 */
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]) {
     printf("Test resource request\n");
-    return 1;
+    int val = safety_algorithm(res_count, proc_count, available, allocation, maximum);
+    if (val == 1) {
+        printf("Failure\n");
+        return 1;
+    }
+    return 0;
 }
 
 /*
@@ -137,7 +142,7 @@ void output_data() {
     printf("Output data structures here\n");
 }
 
-int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int needl[res_count], int maximum[][4]) {
+int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]) {
     int i, j, k;
     int f[proc_count], ans[proc_count], index = 0;
     int y = 0;
@@ -175,10 +180,17 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
         }
     }
 
+    for (i = 0; i < proc_count; i++) {
+        printf("f[%d] = %d\n", i, f[i]);
+        // if (f[i] == 0) {
+        //     printf("f[%d] = %d", i, f[i]);
+        // }
+    }
+
     printf("Following is the SAFE Sequence\n");
     for (i = 0; i < proc_count - 1; i++)
-        printf(" P%d ->", ans[i]);
-    printf(" P%d", ans[proc_count - 1]);
+        printf(" Customer %d ->", ans[i]);
+    printf(" Customer %d\n", ans[proc_count - 1]);
 
     return (0);
 }

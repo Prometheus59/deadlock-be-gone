@@ -3,16 +3,16 @@
 #include <string.h>
 #include <unistd.h>
 
-void request_res(int cmd_res[]);
-void release_res(int cmd_res[]);
+int request_res(int cmd_res[]);
+int release_res(int cmd_res[]);
 void run();
 void output_data();
 int safety_algorithm();
 int readFile(char* fileName);  //, int* maximum[]);
 
 int main(int argc, char* argv[]) {
-    int resource_count = argc - 2;
-    printf("Resource count is %d", resource_count);
+    int resource_count = argc - 1;
+    printf("Resource count is %d\n", resource_count);
     int customer_count = 5;
 
     // User input
@@ -23,8 +23,8 @@ int main(int argc, char* argv[]) {
     char execute[] = "Run";
     char star[] = "*";
 
-    int available[resource_count];
-    //int maximum[customer_count][resource_count];
+    int available[resource_count];  // TODO: Increase resource  count +1
+    // int maximum[customer_count][resource_count];
     // readFile("sample4_in.txt");  //, maximum);
     // printf("\n\n%d\n", maximum[0][1]);
     int maximum[][4] = {
@@ -116,15 +116,17 @@ Requests Resources
 Safety algorithm to decide if request is satisfied
 Fills the allocation array, modifies need array?
 */
-void request_res(int cmd_res[]) {
+int request_res(int cmd_res[]) {
     printf("Test resource request\n");
+    return 1;
 }
 
 /*
 Releases resources
 */
-void release_res(int cmd_res[]) {
+int release_res(int cmd_res[]) {
     printf("Test resource release\n");
+    return 1;
 }
 
 void run() {
@@ -132,5 +134,5 @@ void run() {
 }
 
 void output_data() {
-    printf("Output data here\n");
+    printf("Output data structures here\n");
 }

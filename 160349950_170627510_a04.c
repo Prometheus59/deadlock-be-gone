@@ -182,15 +182,16 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
 
     for (i = 0; i < proc_count; i++) {
         printf("f[%d] = %d\n", i, f[i]);
-        // if (f[i] == 0) {
-        //     printf("f[%d] = %d", i, f[i]);
-        // }
+        if (f[i] == 0) {
+            printf("f[%d] = %d\n", i, f[i]);
+            return 1;
+        }
     }
 
-    printf("Following is the SAFE Sequence\n");
+    printf("Following is the safe sequence\n");
     for (i = 0; i < proc_count - 1; i++)
         printf(" Customer %d ->", ans[i]);
     printf(" Customer %d\n", ans[proc_count - 1]);
 
-    return (0);
+    return 0;
 }

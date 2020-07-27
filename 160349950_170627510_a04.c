@@ -3,11 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 
-int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]);
+int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
 int release_res(int cmd_res[]);
 void run();
 void output_data();
-int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]);
+int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
 int readFile(char* fileName);  //, int* maximum[]);
 
 int main(int argc, char* argv[]) {
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < resource_count; i++) {
             allocation[x][i] = 0;
             need[x][i] = maximum[x][i];
-            // TODO: Remove these print statements eventually
+            // TODO: Remove the following print statements eventually
             printf("%d", allocation[x][i]);
             printf("%d", need[x][i]);
         }
@@ -66,6 +66,7 @@ int main(int argc, char* argv[]) {
 
     // Main function loop
     while (1) {
+        // TODO: Fix entering single word commands
         printf("Enter Command: ");
         scanf("%s %d %d %d %d", cmd, &cmd_res[0], &cmd_res[1], &cmd_res[2], &cmd_res[3]);
 
@@ -73,7 +74,7 @@ int main(int argc, char* argv[]) {
         //printf("%d\n", cmd_res[2]);
 
         if (strcmp(cmd, req) == 0) {
-            request_res(cmd_res, resource_count, customer_count, available, allocation, maximum);
+            request_res(cmd_res, resource_count, customer_count, available, allocation, need, maximum);
         } else if (strcmp(cmd, rel) == 0) {
             release_res(cmd_res);
         } else if (strcmp(cmd, execute) == 0) {
@@ -116,9 +117,11 @@ Requests Resources
 Safety algorithm to decide if request is satisfied
 Fills the allocation array, modifies need array?
 */
-int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]) {
+int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     printf("Test resource request\n");
-    int val = safety_algorithm(res_count, proc_count, available, allocation, maximum);
+    // Create copy of allocation matrix, send that to safety algorithm
+    // If correct, alter real allocation matrix
+    int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
     if (val == 1) {
         printf("Failure\n");
         return 1;
@@ -142,7 +145,7 @@ void output_data() {
     printf("Output data structures here\n");
 }
 
-int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]) {
+int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     int i, j, k;
     int f[proc_count], ans[proc_count], index = 0;
     int y = 0;
@@ -151,7 +154,7 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
         f[k] = 0;
     }
 
-    int need[proc_count][res_count];
+    // int need[proc_count][res_count];
     // Initialize need array
     for (i = 0; i < proc_count; i++) {
         for (j = 0; j < res_count; j++) {
@@ -159,7 +162,7 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
         }
     }
 
-    for (k = 0; k < 5; k++) {
+    for (k = 0; k < proc_count; k++) {
         for (i = 0; i < proc_count; i++) {
             if (f[i] == 0) {
                 int flag = 0;
@@ -183,7 +186,8 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
     for (i = 0; i < proc_count; i++) {
         printf("f[%d] = %d\n", i, f[i]);
         if (f[i] == 0) {
-            printf("f[%d] = %d\n", i, f[i]);
+            // printf("f[%d] = %d\n", i, f[i]);
+            printf("Error: System not in a safe space\n");
             return 1;
         }
     }

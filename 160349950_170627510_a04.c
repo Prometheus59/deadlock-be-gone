@@ -146,46 +146,52 @@ void output_data() {
 }
 
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
-    int i, j, k;
-    int f[proc_count], ans[proc_count], index = 0;
-    int y = 0;
+    int work[res_count];
+    int finish[proc_count];
+    int safe_sequence[proc_count];
+    int x, i, f = 0;
 
-    for (k = 0; k < proc_count; k++) {
-        f[k] = 0;
+    // Set work = available
+    for (x = 0; x < res_count; x++) {
+        work[x] = available[x];
+    }
+    // Set all elements of finish = 0/false
+    for (i = 0; i < proc_count; i++) {
+        finish[i] = 0;
     }
 
-    // int need[proc_count][res_count];
-    // Initialize need array
+    // Update need array
     for (i = 0; i < proc_count; i++) {
-        for (j = 0; j < res_count; j++) {
-            need[i][j] = maximum[i][j] - allocation[i][j];
+        for (x = 0; x < res_count; x++) {
+            need[i][x] = maximum[i][x] - allocation[i][x];
         }
     }
 
-    for (k = 0; k < proc_count; k++) {
-        for (i = 0; i < proc_count; i++) {
-            if (f[i] == 0) {
-                int flag = 0;
-                for (j = 0; j < res_count; j++) {
-                    if (need[i][j] > available[j]) {
-                        flag = 1;
-                        break;
-                    }
+    // Find index x
+    int found;
+    for (i = 0; i < proc_count; i++) {
+        if (finish[i] == 0) {
+            found = 1;
+            for (x = 0; x < res_count; x++) {
+                if (need[i][x] > work[x]) {
+                    found = 0;
+                    break;
                 }
-                if (flag == 0) {
-                    ans[index++] = i;
-                    for (y = 0; y < res_count; y++) {
-                        available[y] += allocation[i][y];
-                    }
-                    f[i] = 1;
+            }
+            if (found == 1) {
+                finish[i] = 1;
+                safe_sequence[f] = i;
+                f++;
+                for (int t = 0; t < res_count; t++) {
+                    work[t] = work[t] + allocation[i][t];
                 }
             }
         }
     }
 
     for (i = 0; i < proc_count; i++) {
-        printf("f[%d] = %d\n", i, f[i]);
-        if (f[i] == 0) {
+        printf("f[%d] = %d\n", i, finish[i]);
+        if (finish[i] == 0) {
             // printf("f[%d] = %d\n", i, f[i]);
             printf("Error: System not in a safe space\n");
             return 1;
@@ -194,8 +200,8 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
 
     printf("Following is the safe sequence\n");
     for (i = 0; i < proc_count - 1; i++)
-        printf(" Customer %d ->", ans[i]);
-    printf(" Customer %d\n", ans[proc_count - 1]);
+        printf(" Customer %d ->", safe_sequence[i]);
+    printf(" Customer %d\n", safe_sequence[proc_count - 1]);
 
     return 0;
 }

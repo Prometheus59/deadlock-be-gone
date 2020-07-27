@@ -158,6 +158,9 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
     int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
     if (val == 1) {
         printf("Request Not Satisfied\n");
+        available[r] = available[r] + request[r];
+        allocation[thread][r] = allocation[thread][r] - request[r];
+        need[thread][r] = need[thread][r] + request[r];
         return 1;
     }
     printf("Request is satisfied\n");

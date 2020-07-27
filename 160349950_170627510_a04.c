@@ -7,13 +7,9 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
 int release_res(int cmd_res[]);
 void run();
 void output_data();
-<<<<<<< HEAD
-int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int maximum[][4]);
 int readFile(char* fileName, int maximum[][4]);  //, int* maximum[]);
-=======
+
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
-int readFile(char* fileName);  //, int* maximum[]);
->>>>>>> 60f81e692bcf8bb23d0d0f8473afcc42794abe70
 
 int main(int argc, char* argv[]) {
     int resource_count = argc - 1;
@@ -92,23 +88,23 @@ int main(int argc, char* argv[]) {
     }
 }
 
-int readFile (char* fileName, int maximum[][4]) {  //, int* maximum[]) {
+int readFile(char* fileName, int maximum[][4]) {  //, int* maximum[]) {
     FILE* in = fopen(fileName, "r");
     if (!in) {
         printf("Error in opening input file...exiting with error code -1\n");
         return -1;
     }
-    const char *delim = ",\n\t ";
+    const char* delim = ",\n\t ";
     char line[240];
     char* token;
-    int i, n, j; 
+    int i, n, j;
     i = 0;
     // Read file line by line
     while (fgets(line, sizeof(line), in)) {
         j = 1;
-        // Initalize line tokens 
+        // Initalize line tokens
         token = strtok(line, delim);
-        // While not empty 
+        // While not empty
         while (token != NULL) {
             n = atoi(token);
             maximum[i][j] = n;

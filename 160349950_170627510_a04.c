@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
     while (1) {
         // TODO: Fix entering single word commands
         printf("Enter Command: ");
-        scanf("%s %d %d %d %d", cmd, &cmd_res[0], &cmd_res[1], &cmd_res[2], &cmd_res[3]);
+        scanf("%s %d %d %d %d %d", cmd, &cmd_res[0], &cmd_res[1], &cmd_res[2], &cmd_res[3], &cmd_res[4]);
 
         //printf("Entered Name: %s\n", cmd);
         //printf("%d\n", cmd_res[2]);
@@ -126,13 +126,41 @@ Fills the allocation array, modifies need array?
 */
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     printf("Test resource request\n");
-    // Create copy of allocation matrix, send that to safety algorithm
-    // If correct, alter real allocation matrix
+    int thread = cmd_res[0];
+    int request[res_count];
+    int r;
+    // Create request array
+    for (r = 1; r < res_count; r++) {
+        request[r - 1] = cmd_res[r];
+    }
+    // Check if request > required
+    for (r = 0; r < res_count; r++) {
+        if (request[r] > need[thread][r]) {
+            printf("Error: Process has exceeded its maximum claim\n");
+            return 1;
+        }
+    }
+    // Check if request > available resources
+    for (r = 0; r < res_count; r++) {
+        if (request[r] > available[r]) {
+            printf("Error: Process must wait, resources not available\n");
+            return 1;
+        }
+    }
+
+    // Pretend allocate resources to customer/thread
+    for (r = 0; r < res_count; r++) {
+        available[r] = available[r] - request[r];
+        allocation[thread][r] = allocation[thread][r] + request[r];
+        need[thread][r] = need[thread][r] - request[r];
+    }
+
     int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
     if (val == 1) {
-        printf("Failure\n");
+        printf("Request Not Satisfied\n");
         return 1;
     }
+    printf("Request is satisfied\n");
     return 0;
 }
 

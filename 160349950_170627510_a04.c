@@ -130,7 +130,7 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
     int request[res_count];
     int r;
     // Create request array
-    for (r = 1; r < res_count; r++) {
+    for (r = 1; r <= res_count; r++) {
         request[r - 1] = cmd_res[r];
     }
     // Check if request > required
@@ -154,33 +154,46 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
         allocation[thread][r] = allocation[thread][r] + request[r];
         need[thread][r] = need[thread][r] - request[r];
     }
-
-    int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
-    if (val == 1) {
-        printf("Request Not Satisfied\n");
-        printf("Available Resourecs: \n");
-        for (int x = 0; x < res_count; x++) {
-            printf(" %d", available[x]);
-        }
-        printf("\n");
-        available[r] = available[r] + request[r];
-        allocation[thread][r] = allocation[thread][r] - request[r];
-        need[thread][r] = need[thread][r] + request[r];
-        printf("Available Resourecs: \n");
-        for (int x = 0; x < res_count; x++) {
-            printf(" %d", available[x]);
-        }
-        printf("\n");
-        return 1;
-    }
-    printf("Request is satisfied\n");
-
-    // TODO: Find out why available resources are not decreasing
-    printf("Available Resourecs: \n");
+    // Test it
+    printf("Pretend available stuff: ");
     for (int x = 0; x < res_count; x++) {
         printf(" %d", available[x]);
     }
     printf("\n");
+
+    int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
+    printf("Request is: ");
+    for (r = 0; r < res_count; r++) {
+        printf(" %d", request[r]);
+    }
+    printf("\n");
+
+    if (val == 1) {
+        // printf("Available Resourecs before reverting: ");
+        // for (int x = 0; x < res_count; x++) {
+        //     printf(" %d", available[x]);
+        // }
+        // printf("\n");
+
+        // ABORT ABORT ABORT ABORT
+        for (r = 0; r < res_count; r++) {
+            available[r] = available[r] + request[r];
+            allocation[thread][r] = allocation[thread][r] - request[r];
+            need[thread][r] = need[thread][r] + request[r];
+        }
+        // printf("Available Resourecs after  reverting: ");
+        // for (int x = 0; x < res_count; x++) {
+        //     printf(" %d", available[x]);
+        // }
+        // printf("\n");
+    } else {
+        printf("Request is satisfied\n");
+        printf("Available Resourecs: \n");
+        for (int x = 0; x < res_count; x++) {
+            printf(" %d", available[x]);
+        }
+        printf("\n");
+    }
 
     return 0;
 }
@@ -244,6 +257,14 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
         if (f[i] == 0) {
             // printf("f[%d] = %d\n", i, f[i]);
             printf("Error: System not in a safe space\n");
+            // REVERT EVERYTHING
+
+            for (i = 0; i < proc_count; i++) {
+                for (y = 0; y < res_count; y++) {
+                    available[y] -= allocation[i][y];
+                }
+            }
+
             return 1;
         }
     }

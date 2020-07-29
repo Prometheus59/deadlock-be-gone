@@ -58,12 +58,12 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < resource_count; i++) {
             allocation[x][i] = 0;
             need[x][i] = maximum[x][i];
-            // TODO: Remove the following print statements eventually
-            printf("%d", allocation[x][i]);
-            printf("%d", need[x][i]);
+            // // TODO: Remove the following print statements eventually
+            // printf("%d", allocation[x][i]);
+            // printf("%d", need[x][i]);
         }
     }
-    printf(" <-- Ignore this number\n");
+    // printf(" <-- Ignore this number\n");
 
     // Main function loop
     while (1) {
@@ -158,12 +158,30 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
     int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
     if (val == 1) {
         printf("Request Not Satisfied\n");
+        printf("Available Resourecs: \n");
+        for (int x = 0; x < res_count; x++) {
+            printf(" %d", available[x]);
+        }
+        printf("\n");
         available[r] = available[r] + request[r];
         allocation[thread][r] = allocation[thread][r] - request[r];
         need[thread][r] = need[thread][r] + request[r];
+        printf("Available Resourecs: \n");
+        for (int x = 0; x < res_count; x++) {
+            printf(" %d", available[x]);
+        }
+        printf("\n");
         return 1;
     }
     printf("Request is satisfied\n");
+
+    // TODO: Find out why available resources are not decreasing
+    printf("Available Resourecs: \n");
+    for (int x = 0; x < res_count; x++) {
+        printf(" %d", available[x]);
+    }
+    printf("\n");
+
     return 0;
 }
 

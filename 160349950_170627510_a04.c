@@ -121,7 +121,6 @@ Safety algorithm to decide if request is satisfied
 Fills the allocation array, modifies need array?
 */
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
-    printf("Test resource request\n");
     int thread = cmd_res[0];
     int request[res_count];
     int r;
@@ -168,11 +167,13 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
             allocation[thread][r] = allocation[thread][r] - request[r];
             need[thread][r] = need[thread][r] + request[r];
         }
-        printf("Available Resourecs after  reverting: ");
-        for (int x = 0; x < res_count; x++) {
-            printf(" %d", available[x]);
-        }
-        printf("\n");
+        // printf("Available Resourecs: ");
+        // for (int x = 0; x < res_count; x++) {
+        //     printf(" %d", available[x]);
+        // }
+        // printf("\n");
+        output_data(res_count, proc_count, available, allocation, need, maximum);
+
     } else {
         printf("Request is satisfied\n");
         printf("Available Resourecs: \n");
@@ -196,11 +197,37 @@ void run() {
     printf("Run function here\n");
 }
 
-void output_data() {
-    printf("Output data structures here\n");
+void output_data(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
+    printf("Available Resourecs: ");
+    for (int x = 0; x < res_count; x++) {
+        printf(" %d", available[x]);
+    }
+    printf("\n");
+    printf("Maximum Resources: \n");
+    for (int x = 0; x < proc_count; x++) {
+        for (int i = 0; i < res_count; i++) {
+            printf("%d", maximum[x][i]);
+            if (i + 1 < res_count) printf(",");
+        }
+        printf("\n");
+    }
+    printf("\nAllocation: \n");
+    for (int x = 0; x < proc_count; x++) {
+        for (int i = 0; i < res_count; i++) {
+            printf("%d", allocation[x][i]);
+        }
+        printf("\n");
+    }
+    printf("\nNeed: \n");
+    for (int x = 0; x < proc_count; x++) {
+        for (int i = 0; i < res_count; i++) {
+            printf("%d ", need[x][i]);
+        }
+        printf("\n");
+    }
 }
 
-// TODO: Change up this algorithm
+// TODO: Change this algorithm?
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     int i, j, k;
     int f[proc_count], ans[proc_count], index = 0;
@@ -212,11 +239,11 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
 
     // int need[proc_count][res_count];
     // Initialize need array
-    for (i = 0; i < proc_count; i++) {
-        for (j = 0; j < res_count; j++) {
-            need[i][j] = maximum[i][j] - allocation[i][j];
-        }
-    }
+    // for (i = 0; i < proc_count; i++) {
+    //     for (j = 0; j < res_count; j++) {
+    //         need[i][j] = maximum[i][j] - allocation[i][j];
+    //     }
+    // }
 
     for (k = 0; k < proc_count; k++) {
         for (i = 0; i < proc_count; i++) {

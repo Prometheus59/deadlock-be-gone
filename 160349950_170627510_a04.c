@@ -58,12 +58,8 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < resource_count; i++) {
             allocation[x][i] = 0;
             need[x][i] = maximum[x][i];
-            // // TODO: Remove the following print statements eventually
-            // printf("%d", allocation[x][i]);
-            // printf("%d", need[x][i]);
         }
     }
-    // printf(" <-- Ignore this number\n");
 
     // Main function loop
     while (1) {
@@ -154,21 +150,11 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
         allocation[thread][r] = allocation[thread][r] + request[r];
         need[thread][r] = need[thread][r] - request[r];
     }
-    // Test it
-    printf("Pretend available stuff: ");
-    for (int x = 0; x < res_count; x++) {
-        printf(" %d", available[x]);
-    }
-    printf("\n");
 
     int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
-    printf("Request is: ");
-    for (r = 0; r < res_count; r++) {
-        printf(" %d", request[r]);
-    }
-    printf("\n");
 
     if (val == 1) {
+        printf("Request not satisfied\n");
         // printf("Available Resourecs before reverting: ");
         // for (int x = 0; x < res_count; x++) {
         //     printf(" %d", available[x]);
@@ -176,16 +162,17 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
         // printf("\n");
 
         // ABORT ABORT ABORT ABORT
+        // TODO: Test this later
         for (r = 0; r < res_count; r++) {
             available[r] = available[r] + request[r];
             allocation[thread][r] = allocation[thread][r] - request[r];
             need[thread][r] = need[thread][r] + request[r];
         }
-        // printf("Available Resourecs after  reverting: ");
-        // for (int x = 0; x < res_count; x++) {
-        //     printf(" %d", available[x]);
-        // }
-        // printf("\n");
+        printf("Available Resourecs after  reverting: ");
+        for (int x = 0; x < res_count; x++) {
+            printf(" %d", available[x]);
+        }
+        printf("\n");
     } else {
         printf("Request is satisfied\n");
         printf("Available Resourecs: \n");
@@ -194,7 +181,6 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
         }
         printf("\n");
     }
-
     return 0;
 }
 
@@ -214,6 +200,7 @@ void output_data() {
     printf("Output data structures here\n");
 }
 
+// TODO: Change up this algorithm
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     int i, j, k;
     int f[proc_count], ans[proc_count], index = 0;

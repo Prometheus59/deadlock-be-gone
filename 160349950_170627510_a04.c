@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
-int release_res(int cmd_res[]);
+int release_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);  //TODO: May not need all of these params
 void run();
 void output_data();
 int readFile(char* fileName, int maximum[][4]);  //, int* maximum[]);
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
         if (strcmp(cmd, req) == 0) {
             request_res(cmd_res, resource_count, customer_count, available, allocation, need, maximum);
         } else if (strcmp(cmd, rel) == 0) {
-            release_res(cmd_res);
+            release_res(cmd_res, resource_count, customer_count, available, allocation, need, maximum);
         } else if (strcmp(cmd, execute) == 0) {
             run();
         } else if (strcmp(cmd, star) == 0) {
@@ -84,36 +84,35 @@ int main(int argc, char* argv[]) {
     }
 }
 
-int readFile(char* fileName, int maximum[][4]) {  //, int* maximum[]) {
-    FILE* in = fopen(fileName, "r");
-    if (!in) {
-        printf("Error in opening input file...exiting with error code -1\n");
-        return -1;
-    }
-    const char* delim = ",\n\t ";
-    char line[240];
-    char* token;
-    int i, n, j;
-    i = 0;
-    // Read file line by line
-    while (fgets(line, sizeof(line), in)) {
-        j = 1;
-        // Initalize line tokens
-        token = strtok(line, delim);
-        // While not empty
-        while (token != NULL) {
-            n = atoi(token);
-            maximum[i][j] = n;
-            j++;
-            printf(" %d", maximum[i][j]);
-            token = strtok(NULL, delim);
-        }
-        // Use first array position to store the size
-        maximum[i][0] = j;
-        i++;
-    }
-    return 0;
-}
+// int readFile(char* fileName, int maximum[][4]) {  //, int* maximum[]) {
+//     FILE* in = fopen(fileName, "r");
+//     if (!in) {
+//         printf("Error in opening input file...exiting with error code -1\n");
+//         return -1;
+//     }
+//     const char* delim = ",\n\t ";
+//     char line[240];
+//     char* token;
+//     int i, n, j;
+//     i = 0;
+//     // Read file line by line
+//     while (fgets(line, sizeof(line), in)) {
+//         j = 1;
+//         // Initalize line tokens
+//         token = strtok(line, delim);
+//         // While not empty
+//         while (token != NULL) {
+//             n = atoi(token);
+//             maximum[i][j] = n;
+//             j++;
+//             printf(" %d", maximum[i][j]);
+//             token = strtok(NULL, delim);
+//         }
+//         // Use first array position to store the size
+//         i++;
+//     }
+//     return 0;
+// }
 
 /*
 Requests Resources
@@ -121,12 +120,15 @@ Safety algorithm to decide if request is satisfied
 Fills the allocation array, modifies need array?
 */
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
+    //TODO: Find out why maximum array's first value keeps changing to last value of RQ/RL user input
     int thread = cmd_res[0];
     int request[res_count];
     int r;
     // Create request array
+    //printf("Request Array for thread %d\n", thread);
     for (r = 1; r <= res_count; r++) {
         request[r - 1] = cmd_res[r];
+        //printf("%d ", request[r - 1]);
     }
     // Check if request > required
     for (r = 0; r < res_count; r++) {
@@ -144,43 +146,63 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
     }
 
     // Pretend allocate resources to customer/thread
-    for (r = 0; r < res_count; r++) {
-        available[r] = available[r] - request[r];
-        allocation[thread][r] = allocation[thread][r] + request[r];
-        need[thread][r] = need[thread][r] - request[r];
+
+    // Make copy arrays
+    int available_copy[res_count];
+    int allocation_copy[proc_count][res_count];
+    int need_copy[proc_count][res_count];
+    int maximum_copy[proc_count][res_count];
+    // Populate arrays
+    for (int p = 0; p < proc_count; p++) {
+        for (r = 0; r < res_count; r++) {
+            allocation_copy[p][r] = allocation[p][r];
+            need_copy[p][r] = need[p][r];
+            maximum_copy[p][r] = maximum[p][r];
+            if (p == 0) {
+                available_copy[r] = available[r];
+            }
+        }
     }
 
-    int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
+    // Pretend-allocate resources
+    for (r = 0; r < res_count; r++) {
+        available_copy[r] = available_copy[r] - request[r];
+        allocation_copy[thread][r] = allocation_copy[thread][r] + request[r];
+        need_copy[thread][r] = need_copy[thread][r] - request[r];
+    }
+
+    int val = safety_algorithm(res_count, proc_count, available_copy, allocation_copy, need_copy, maximum_copy);
 
     if (val == 1) {
+        // Bad request
         printf("Request not satisfied\n");
-        // printf("Available Resourecs before reverting: ");
-        // for (int x = 0; x < res_count; x++) {
-        //     printf(" %d", available[x]);
-        // }
-        // printf("\n");
 
         // ABORT ABORT ABORT ABORT
         // TODO: Test this later
+        // for (r = 0; r < res_count; r++) {
+        //     available[r] = available[r] + request[r];
+        //     allocation[thread][r] = allocation[thread][r] - request[r];
+        //     need[thread][r] = need[thread][r] + request[r];
+        // }
+        printf("For copy:\n");
+        output_data(res_count, proc_count, available_copy, allocation_copy, need_copy, maximum_copy);
+        printf("\nFor realsies:\n");
+        output_data(res_count, proc_count, available, allocation, need, maximum);
+
+    } else {
+        printf("Request is satisfied\n");
         for (r = 0; r < res_count; r++) {
-            available[r] = available[r] + request[r];
-            allocation[thread][r] = allocation[thread][r] - request[r];
-            need[thread][r] = need[thread][r] + request[r];
+            available[r] = available[r] - request[r];
+            allocation[thread][r] = allocation[thread][r] + request[r];
+            need[thread][r] = need[thread][r] - request[r];
         }
-        // printf("Available Resourecs: ");
+        safety_algorithm(res_count, proc_count, available, allocation, need, maximum);
+        // printf("Available Resourecs: \n");
         // for (int x = 0; x < res_count; x++) {
         //     printf(" %d", available[x]);
         // }
         // printf("\n");
         output_data(res_count, proc_count, available, allocation, need, maximum);
-
-    } else {
-        printf("Request is satisfied\n");
-        printf("Available Resourecs: \n");
-        for (int x = 0; x < res_count; x++) {
-            printf(" %d", available[x]);
-        }
-        printf("\n");
     }
     return 0;
 }
@@ -188,8 +210,9 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
 /*
 Releases resources
 */
-int release_res(int cmd_res[]) {
+int release_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     printf("Test resource release\n");
+    output_data(res_count, proc_count, available, allocation, need, maximum);
     return 1;
 }
 
@@ -214,7 +237,7 @@ void output_data(int res_count, int proc_count, int available[], int allocation[
     printf("\nAllocation: \n");
     for (int x = 0; x < proc_count; x++) {
         for (int i = 0; i < res_count; i++) {
-            printf("%d", allocation[x][i]);
+            printf("%d ", allocation[x][i]);
         }
         printf("\n");
     }
@@ -236,14 +259,6 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
     for (k = 0; k < proc_count; k++) {
         f[k] = 0;
     }
-
-    // int need[proc_count][res_count];
-    // Initialize need array
-    // for (i = 0; i < proc_count; i++) {
-    //     for (j = 0; j < res_count; j++) {
-    //         need[i][j] = maximum[i][j] - allocation[i][j];
-    //     }
-    // }
 
     for (k = 0; k < proc_count; k++) {
         for (i = 0; i < proc_count; i++) {
@@ -267,7 +282,7 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
     }
 
     for (i = 0; i < proc_count; i++) {
-        printf("f[%d] = %d\n", i, f[i]);
+        // printf("f[%d] = %d\n", i, f[i]);
         if (f[i] == 0) {
             // printf("f[%d] = %d\n", i, f[i]);
             printf("Error: System not in a safe space\n");

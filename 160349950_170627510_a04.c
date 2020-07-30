@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#define BUFFERSIZE 10
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
 int release_res(int cmd_res[]);
 void run();
@@ -63,12 +64,19 @@ int main(int argc, char* argv[]) {
 
     // Main function loop
     while (1) {
-        // TODO: Fix entering single word commands
-        printf("Enter Command: ");
-        scanf("%s %d %d %d %d %d", cmd, &cmd_res[0], &cmd_res[1], &cmd_res[2], &cmd_res[3], &cmd_res[4]);
-
-        //printf("Entered Name: %s\n", cmd);
-        //printf("%d\n", cmd_res[2]);
+        char buffer[BUFFERSIZE];
+        fgets(buffer, BUFFERSIZE, stdin);
+        // printf("%s", buffer);
+        const char *token;
+        const char* delim = "\n\t ";
+        int i = 0;
+        token = strtok(buffer, delim);
+        strcpy(cmd, token);
+        while (token != NULL) {
+            cmd_res[i] = atoi(token);
+            token = strtok(NULL, delim);
+            i++;
+        }
 
         if (strcmp(cmd, req) == 0) {
             request_res(cmd_res, resource_count, customer_count, available, allocation, need, maximum);

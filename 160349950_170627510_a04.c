@@ -75,11 +75,16 @@ int main(int argc, char* argv[]) {
         token = strtok(buffer, delim);
         strcpy(cmd, token);
         while (token != NULL) {
-            // TODO? Why is array skipping first index?
-            cmd_res[i] = atoi(token);
-            printf("cmd_res[i] for i=%d is %d\n", i, cmd_res[i]);
-            token = strtok(NULL, delim);
-            i++;
+            if (i == 0) {
+                token = strtok(NULL, delim);
+                i++;
+                continue;
+            } else {
+                cmd_res[i - 1] = atoi(token);
+                printf("cmd_res[i] for i=%d is %d\n", i - 1, cmd_res[i - 1]);
+                token = strtok(NULL, delim);
+                i++;
+            }
         }
 
         if (strcmp(cmd, req) == 0) {

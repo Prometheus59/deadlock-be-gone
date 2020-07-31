@@ -27,9 +27,10 @@ int main(int argc, char* argv[]) {
     int available[resource_count];
     // int maximum[customer_count][resource_count];
     // readFile("sample4_in.txt");  //, maximum);
-    // printf("\n\n%d\n", maximum[0][1]);
+
     int maximum[][4] = {
         {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
+
     int allocation[customer_count][resource_count];
     int need[customer_count][resource_count];
 
@@ -218,6 +219,8 @@ int release_res(int cmd_res[], int res_count, int proc_count, int available[], i
 
 void run() {
     printf("Run function here\n");
+    // Run safety algorithm to get sequence
+    // In a for loop, run each thread in order.
 }
 
 void output_data(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
@@ -247,6 +250,28 @@ void output_data(int res_count, int proc_count, int available[], int allocation[
             printf("%d ", need[x][i]);
         }
         printf("\n");
+    }
+}
+
+void run_thread(int thread_index, int res_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
+    int r;
+    printf("Customer/Thread %d\n", thread_index);
+    printf("Allocated Resources: ");
+    for (r = 0; r < res_count; r++) {
+        printf(" %d", allocation[thread_index][r]);
+    }
+    printf("\nNeeded: ");
+    for (r = 0; r < res_count; r++) {
+        printf(" %d", need[thread_index][r]);
+    }
+    // TODO: Add actual thread handling here
+    printf("\nThread has started\nThread has finished\nThread is releasing resources\n");
+
+    // TODO: Create and add relevant values to a cmd_res[]
+    // release_res();
+    printf("New available:");
+    for (r = 0; x < res_count; r++) {
+        printf(" %d", available[r]);
     }
 }
 

@@ -3,11 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 
-#define BUFFERSIZE 10
+#define BUFFERSIZE 15
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
 int release_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);  //TODO: May not need all of these params
 void run();
-void output_data();
+void output_data(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
 int readFile(char* fileName, int maximum[][4]);  //, int* maximum[]);
 
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
@@ -65,16 +65,19 @@ int main(int argc, char* argv[]) {
 
     // Main function loop
     while (1) {
+        printf("\nEnter Command: ");
         char buffer[BUFFERSIZE];
         fgets(buffer, BUFFERSIZE, stdin);
         // printf("%s", buffer);
-        const char *token;
+        const char* token;
         const char* delim = "\n\t ";
         int i = 0;
         token = strtok(buffer, delim);
         strcpy(cmd, token);
         while (token != NULL) {
+            // TODO? Why is array skipping first index?
             cmd_res[i] = atoi(token);
+            printf("cmd_res[i] for i=%d is %d\n", i, cmd_res[i]);
             token = strtok(NULL, delim);
             i++;
         }
@@ -86,7 +89,7 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(cmd, execute) == 0) {
             run();
         } else if (strcmp(cmd, star) == 0) {
-            output_data();
+            output_data(resource_count, customer_count, available, allocation, need, maximum);
         } else {
             printf("Invalid command!\nPlease enter RQ to request resources or RL to release resources\n");
         }
@@ -236,8 +239,7 @@ void output_data(int res_count, int proc_count, int available[], int allocation[
     for (int x = 0; x < res_count; x++) {
         printf(" %d", available[x]);
     }
-    printf("\n");
-    printf("Maximum Resources: \n");
+    printf("\n\nMaximum Resources: \n");
     for (int x = 0; x < proc_count; x++) {
         for (int i = 0; i < res_count; i++) {
             printf("%d", maximum[x][i]);
@@ -278,7 +280,7 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
     // TODO: Create and add relevant values to a cmd_res[]
     // release_res();
     printf("New available:");
-    for (r = 0; x < res_count; r++) {
+    for (r = 0; r < res_count; r++) {
         printf(" %d", available[r]);
     }
 }

@@ -26,11 +26,11 @@ int main(int argc, char* argv[]) {
     char star[] = "*";
 
     int available[resource_count];
-    // int maximum[customer_count][resource_count];
-    // readFile("sample4_in.txt");  //, maximum);
+    int maximum[customer_count][resource_count];
+    readFile("sample4_in.txt", maximum);
 
-    int maximum[][4] = {
-        {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
+    // int maximum[][4] = {
+    //     {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
 
     int allocation[customer_count][resource_count];
     int need[customer_count][resource_count];
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
                 continue;
             } else {
                 cmd_res[i - 1] = atoi(token);
-                printf("cmd_res[i] for i=%d is %d\n", i - 1, cmd_res[i - 1]);
+                //printf("cmd_res[i] for i=%d is %d\n", i - 1, cmd_res[i - 1]);
                 token = strtok(NULL, delim);
                 i++;
             }
@@ -101,28 +101,28 @@ int main(int argc, char* argv[]) {
     }
 }
 
-int readFile (char* fileName, int maximum[][4]) {
+int readFile(char* fileName, int maximum[][4]) {
     FILE* in = fopen(fileName, "r");
     if (!in) {
         printf("Error in opening input file...exiting with error code -1\n");
         return -1;
     }
-    const char *delim = ",\n\t ";
+    const char* delim = ",\n\t ";
     char line[20];
     char* token;
-    int i, n, j; 
+    int i, n, j;
     i = 0;
     // Read file line by line
     while (fgets(line, sizeof(line), in)) {
         j = 0;
-        // Initalize line tokens 
+        // Initalize line tokens
         token = strtok(line, delim);
-        // While not empty 
-        printf("\n");
+        // While not empty
+        // printf("\n");
         while (token != NULL) {
             n = atoi(token);
             maximum[i][j] = n;
-            printf(" %d", maximum[i][j]);
+            // printf(" %d", maximum[i][j]);
             j++;
             token = strtok(NULL, delim);
         }
@@ -202,9 +202,9 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
         //     need[thread][r] = need[thread][r] + request[r];
         // }
         printf("For copy:\n");
-        output_data(res_count, proc_count, available_copy, allocation_copy, need_copy, maximum_copy);
+        // output_data(res_count, proc_count, available_copy, allocation_copy, need_copy, maximum_copy);
         printf("\nFor realsies:\n");
-        output_data(res_count, proc_count, available, allocation, need, maximum);
+        // output_data(res_count, proc_count, available, allocation, need, maximum);
 
     } else {
         printf("Request is satisfied\n");
@@ -291,6 +291,7 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
 }
 
 // TODO: Change this algorithm?
+// TODO: Add an array to the parameters to hold the sequence, modify and return that array
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     int i, j, k;
     int f[proc_count], ans[proc_count], index = 0;

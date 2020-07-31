@@ -101,35 +101,35 @@ int main(int argc, char* argv[]) {
     }
 }
 
-// int readFile(char* fileName, int maximum[][4]) {  //, int* maximum[]) {
-//     FILE* in = fopen(fileName, "r");
-//     if (!in) {
-//         printf("Error in opening input file...exiting with error code -1\n");
-//         return -1;
-//     }
-//     const char* delim = ",\n\t ";
-//     char line[240];
-//     char* token;
-//     int i, n, j;
-//     i = 0;
-//     // Read file line by line
-//     while (fgets(line, sizeof(line), in)) {
-//         j = 1;
-//         // Initalize line tokens
-//         token = strtok(line, delim);
-//         // While not empty
-//         while (token != NULL) {
-//             n = atoi(token);
-//             maximum[i][j] = n;
-//             j++;
-//             printf(" %d", maximum[i][j]);
-//             token = strtok(NULL, delim);
-//         }
-//         // Use first array position to store the size
-//         i++;
-//     }
-//     return 0;
-// }
+int readFile (char* fileName, int maximum[][4]) {
+    FILE* in = fopen(fileName, "r");
+    if (!in) {
+        printf("Error in opening input file...exiting with error code -1\n");
+        return -1;
+    }
+    const char *delim = ",\n\t ";
+    char line[20];
+    char* token;
+    int i, n, j; 
+    i = 0;
+    // Read file line by line
+    while (fgets(line, sizeof(line), in)) {
+        j = 0;
+        // Initalize line tokens 
+        token = strtok(line, delim);
+        // While not empty 
+        printf("\n");
+        while (token != NULL) {
+            n = atoi(token);
+            maximum[i][j] = n;
+            printf(" %d", maximum[i][j]);
+            j++;
+            token = strtok(NULL, delim);
+        }
+        i++;
+    }
+    return 0;
+}
 
 /*
 Requests Resources

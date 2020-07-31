@@ -11,7 +11,7 @@ void run(int res_count, int proc_count, int available[], int allocation[][res_co
 void output_data(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
 int readFile(char* fileName, int maximum[][4]);  //, int* maximum[]);
 
-int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4], int sequence[]);
+int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4], int sequence[], int alter_arr);
 
 int main(int argc, char* argv[]) {
     int resource_count = argc - 1;
@@ -66,6 +66,7 @@ int main(int argc, char* argv[]) {
 
     // Main function loop
     while (1) {
+        // TODO: Find out why a command is sometimes printed x2 w/ last digit of first command == cmd (ex. RQ 0 10 10 10 10)
         printf("\nEnter Command: ");
         char buffer[BUFFERSIZE];
         fgets(buffer, BUFFERSIZE, stdin);
@@ -97,7 +98,7 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(cmd, star) == 0) {
             output_data(resource_count, customer_count, available, allocation, need, maximum);
         } else {
-            printf("Invalid command!\nPlease enter RQ to request resources or RL to release resources\n");
+            printf("Invalid command: %s\nPlease enter RQ to request resources or RL to release resources\n", cmd);
         }
     }
 }
@@ -138,7 +139,7 @@ Safety algorithm to decide if request is satisfied
 Fills the allocation array, modifies need array?
 */
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
-    //TODO: Find out why maximum array's first value keeps changing to last value of RQ/RL user input
+    // TODO: Able to request more resources than available, since available resources keeps increasing
     int thread = cmd_res[0];
     int request[res_count];
     int r;
@@ -190,22 +191,16 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
     }
 
     int sequence[proc_count];
-    int val = safety_algorithm(res_count, proc_count, available_copy, allocation_copy, need_copy, maximum_copy, sequence);
+    int alter_avail = 0;
+    int val = safety_algorithm(res_count, proc_count, available_copy, allocation_copy, need_copy, maximum_copy, sequence, alter_avail);
 
     if (val == 1) {
         // Bad request
         printf("Request not satisfied\n");
 
-        // ABORT ABORT ABORT ABORT
-        // TODO: Test this later
-        // for (r = 0; r < res_count; r++) {
-        //     available[r] = available[r] + request[r];
-        //     allocation[thread][r] = allocation[thread][r] - request[r];
-        //     need[thread][r] = need[thread][r] + request[r];
-        // }
-        printf("For copy:\n");
+        // printf("For copy:\n");
         // output_data(res_count, proc_count, available_copy, allocation_copy, need_copy, maximum_copy);
-        printf("\nFor realsies:\n");
+        // printf("\nFor realsies:\n");
         // output_data(res_count, proc_count, available, allocation, need, maximum);
 
     } else {
@@ -215,13 +210,14 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
             allocation[thread][r] = allocation[thread][r] + request[r];
             need[thread][r] = need[thread][r] - request[r];
         }
-        safety_algorithm(res_count, proc_count, available, allocation, need, maximum, sequence);
+        alter_avail = 1;
+        safety_algorithm(res_count, proc_count, available, allocation, need, maximum, sequence, alter_avail);
         printf("Following is the safe sequence\n");
         for (int i = 0; i < proc_count - 1; i++) {
             printf(" Customer %d ->", sequence[i]);
         }
         printf(" Customer %d\n", sequence[proc_count - 1]);
-        // printf("Available Resourecs: \n");
+        // printf("Available Resources: \n");
         // for (int x = 0; x < res_count; x++) {
         //     printf(" %d", available[x]);
         // }
@@ -239,6 +235,7 @@ int release_res(int cmd_res[], int res_count, int proc_count, int available[], i
     output_data(res_count, proc_count, available, allocation, need, maximum);
     return 1;
 }
+
 /*
 Runs all threads if possible
 */
@@ -246,24 +243,27 @@ void run(int res_count, int proc_count, int available[], int allocation[][res_co
     printf("Run functionn here\n");
     // Run safety algorithm to get sequence
     int sequence[proc_count];
-    int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum, sequence);
-    printf("Sequence: ");
-    for (int j = 0; j < proc_count; j++) {
-        printf("%d ", sequence[j]);
-    }
-    printf("\n");
+    int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum, sequence, 1);
     if (val == 0) {
+        printf("Sequence: ");
+        for (int j = 0; j < proc_count; j++) {
+            printf("%d ", sequence[j]);
+        }
+        printf("\n");
+        // Run each thread in order.
         for (int x = 0; x < proc_count; x++) {
             run_thread(sequence[x], res_count, available, allocation, need, maximum);
         }
     } else {
         printf("Error: Cannot run threads right now\n");
     }
-    // In a for loop, run each thread in order.
 }
 
+/*
+  Outputs Available resources, maximum resources, allocation, and resources needed
+*/
 void output_data(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
-    printf("Available Resourecs: ");
+    printf("Available Resources: ");
     for (int x = 0; x < res_count; x++) {
         printf(" %d", available[x]);
     }
@@ -291,6 +291,9 @@ void output_data(int res_count, int proc_count, int available[], int allocation[
     }
 }
 
+/*
+Runs a thread, specified by thread_index
+*/
 void run_thread(int thread_index, int res_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     int r;
     printf("\n\n-->Customer/Thread %d\n", thread_index);
@@ -305,7 +308,7 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
     // TODO: Add actual thread handling here
     printf("\n        Thread has started\n        Thread has finished\n        Thread is releasing resources\n");
 
-    // TODO: Create and add relevant values to a cmd_res[]
+    // TODO: Create and add relevant values to a cmd_res[] for release_res()
     // release_res();
     printf("        New available:");
     for (r = 0; r < res_count; r++) {
@@ -314,9 +317,11 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
     return;
 }
 
+/*
+Algorithm to determine whether state is safe
+*/
 // TODO: Change this algorithm?
-// TODO: Add an array to the parameters to hold the sequence, modify and return that array
-int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count], int sequence[]) {
+int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count], int sequence[], int alter_arr) {
     int index = 0;
     int k, i, j, y;
     int f[proc_count], ans[proc_count];
@@ -337,7 +342,8 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
                 if (flag == 0) {
                     ans[index++] = i;
                     for (y = 0; y < res_count; y++) {
-                        available[y] += allocation[i][y];
+                        if (alter_arr == 1)
+                            available[y] += allocation[i][y];
                     }
                     f[i] = 1;
                 }
@@ -347,18 +353,21 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
 
     for (i = 0; i < proc_count; i++) {
         // printf("f[%d] = %d\n", i, f[i]);
-        if (f[i] == 0) {
+        if (f[i] == 0 && alter_arr == 1) {
             // printf("f[%d] = %d\n", i, f[i]);
-            printf("Error: System not in a safe space\n");
-            // REVERT EVERYTHING
 
-            for (i = 0; i < proc_count; i++) {
+            printf("Error: System not in a safe space\n");
+
+            // REVERT EVERYTHING
+            // TODO: May need to change this as only indecies with flag==0 are changed
+            for (k = 0; k < proc_count; k++) {
                 for (y = 0; y < res_count; y++) {
-                    available[y] -= allocation[i][y];
+                    if (need[k][y] > available[y])
+                        available[y] -= allocation[k][y];
                 }
             }
-
-            return 1;
+            if (f[i] == 0)
+                return 1;
         }
     }
 

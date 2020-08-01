@@ -139,7 +139,6 @@ Safety algorithm to decide if request is satisfied
 Fills the allocation array, modifies need array?
 */
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
-    // TODO: Able to request more resources than available, since available resources keeps increasing
     int thread = cmd_res[0];
     int request[res_count];
     int r;
@@ -324,6 +323,11 @@ Algorithm to determine whether state is safe
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count], int sequence[], int alter_arr) {
     int index = 0;
     int k, i, j, y;
+    // Create a temporary available array so as not to screw everything up
+    int temp_avail[res_count];
+    for (i = 0; i < res_count; i++){
+        temp_avail[i] = available[i];
+    }
     int f[proc_count], ans[proc_count];
     for (k = 0; k < proc_count; k++) {
         f[k] = 0;
@@ -334,7 +338,7 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
             if (f[i] == 0) {
                 int flag = 0;
                 for (j = 0; j < res_count; j++) {
-                    if (need[i][j] > available[j]) {
+                    if (need[i][j] > temp_avail[j]) {
                         flag = 1;
                         break;
                     }
@@ -343,7 +347,7 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
                     ans[index++] = i;
                     for (y = 0; y < res_count; y++) {
                         if (alter_arr == 1)
-                            available[y] += allocation[i][y];
+                            temp_avail[y] += allocation[i][y];
                     }
                     f[i] = 1;
                 }
@@ -357,15 +361,16 @@ int safety_algorithm(int res_count, int proc_count, int available[], int allocat
             // printf("f[%d] = %d\n", i, f[i]);
 
             printf("Error: System not in a safe space\n");
-
+            /*
             // REVERT EVERYTHING
             // TODO: May need to change this as only indecies with flag==0 are changed
             for (k = 0; k < proc_count; k++) {
                 for (y = 0; y < res_count; y++) {
-                    if (need[k][y] > available[y])
-                        available[y] -= allocation[k][y];
+                    if (need[k][y] > temp_avail[y])
+                        temp_avail[y] -= allocation[k][y];
                 }
             }
+            */
             if (f[i] == 0)
                 return 1;
         }

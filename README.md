@@ -14,19 +14,19 @@ Assignment 4 for CP386 Spring 2020.
 * request_res:      Ryan Karumanchery 
 * release_res:      Ramandeep Saini
 * run:              Ryan Karumanchery
-* output_data:      Ryan Karumanchery
+* output_data:      Ramandeep Saini
 * run_thread:       Ryan Karumanchery
 * safety_algorithm: Ryan Karumanchery
 
 #### Features:
 * main:             Initalize variables and contains main function loop.     
-* read_file:        Reads text file into the the 2D matrix maximum.        
-* request_res:      Request resources.        
+* read_file:        Reads text file into the 2D matrix maximum.        
+* request_res:      Request resources.
 * release_res:      Release resources.
-* run:              Runs all threads.     
+* run:              Runs all threads.
 * output_data:      Outputs Available resources, maximum resources, allocation, and resources needed    
-* run_thread:       Runs a thread.     
-* safety_algorithm: Algorithm to determine whether state is safe.
+* run_thread:       Runs a thread.
+* safety_algorithm: Algorithm to determine if state is safe.
 
 #### Tests:
 Please see screenshots.

@@ -9,7 +9,7 @@ int release_res(int cmd_res[], int res_count, int proc_count, int available[], i
 void run_thread(int thread_index, int res_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
 void run(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
 void output_data(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
-int readFile(char* fileName, int maximum[][4]);  //, int* maximum[]);
+int read_file(char* fileName, int maximum[][4]);  //, int* maximum[]);
 
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4], int sequence[], int alter_arr);
 
@@ -28,8 +28,8 @@ int main(int argc, char* argv[]) {
 
     int available[resource_count];
     int maximum[customer_count][resource_count];
-    // readFile("sample4_in.txt", maximum);
-    readFile("test_input.txt", maximum);
+    // read_file("sample4_in.txt", maximum);
+    read_file("test_input.txt", maximum);
 
     // int maximum[][4] = {
     //     {6, 4, 7, 3}, {4, 2, 3, 2}, {2, 5, 3, 3}, {6, 3, 3, 2}, {5, 6, 7, 5}};
@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
     }
 }
 
-int readFile(char* fileName, int maximum[][4]) {
+int read_file(char* fileName, int maximum[][4]) {
     FILE* in = fopen(fileName, "r");
     if (!in) {
         printf("Error in opening input file...exiting with error code -1\n");

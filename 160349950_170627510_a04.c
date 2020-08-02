@@ -2,13 +2,13 @@
 ---------------------------
  Authors:
  - Ryan Karumanchery
- - GitHub Login ID: Prometheus59 
+ - GitHub ID: Prometheus59 
  - 160349950
  - Ramandeep Saini 
- - GitHub Login ID: Raman-Saini
+ - GitHub ID: Raman-Saini
  - 170627510
- Github:
- - GitHub Repository:
+ Github: 
+ - Repository Link: https://github.com/Prometheus59/deadlock-be-gone
  Date:
  - August 1, 2020
  Desc:

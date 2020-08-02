@@ -5,6 +5,7 @@ In this assignmnet we try to practice the concept of deadlock avoidance.
 Assignment 4 for CP386 Spring 2020.
   
 #### Intstallation:
+To install, please clone the repository and save it locally. You should have a zip folder that incldues everything you need. Unzip this folder before you try to run anything. To see how to run, please visit the 'Code Examples' section below.
 
 #### Screenshots:
 1. Request:
@@ -12,7 +13,8 @@ Assignment 4 for CP386 Spring 2020.
 2. Release:
    ![Release](/images/release.png)
 3. Run:
-   ![Run](/images/run.png)
+   ![Run1](/images/run1.png)
+   ![Run2](/images/run2.png)
 4. *:
    ![*](/images/star.png)
 
@@ -38,11 +40,10 @@ Assignment 4 for CP386 Spring 2020.
 
 #### Tests:
 Please see screenshots.
+Two files used for testing data are avaible in the installed folder.
 
 #### Code Example:
 
 #### Authors:
 * Ryan Karumanchery
 * Ramandeep Saini
-
-#### Credits:

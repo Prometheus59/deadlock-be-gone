@@ -4,8 +4,14 @@ In this assignmnet we try to practice the concept of deadlock avoidance.
 #### Motivation: 
 Assignment 4 for CP386 Spring 2020.
   
-#### Intstallation:
-To install, please clone the repository and save it locally. You should have a zip folder that incldues everything you need. Unzip this folder before you try to run anything. To see how to run, please visit the 'Code Examples' section below.
+#### Installation:
+To install, please clone the repository and save it locally. You should have a zip folder that incldues everything you need. Unzip this folder before you try to run anything. 
+
+In your terminal, navigate to the root directory previously unzipped folder.
+
+Run the MAKE command by typing `make` in your terminal.
+
+Run the program by typing `./test` followed by your resources, for example `./test 10 5 7 8`
 
 #### Screenshots:
 ![Request](/images/request.png)

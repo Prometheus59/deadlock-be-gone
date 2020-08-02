@@ -1,10 +1,26 @@
+/*
+---------------------------
+ Authors:
+ - Ryan Karumanchery
+ - GitHub Login ID: Prometheus59 
+ - 160349950
+ - Ramandeep Saini 
+ - GitHub Login ID: Raman-Saini
+ - 170627510
+ Github:
+ - GitHub Repository:
+ Date:
+ - August 1, 2020
+ Desc:
+ - CP386 Assignment Four - Deadlock-Be-Gone
+---------------------------
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <semaphore.h>
 #include <pthread.h>
-
 
 #define BUFFERSIZE 15
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);

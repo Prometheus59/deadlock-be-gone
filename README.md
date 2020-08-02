@@ -9,7 +9,7 @@ To install, please clone the repository and save it locally. You should have a z
 
 #### Screenshots:
 ![Request](/images/request.png)
-
+![Release](/images/release.png)
 ![Run1](/images/run1.png)
 ![Run2](/images/run2.png)
 

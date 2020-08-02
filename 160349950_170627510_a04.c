@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
 
     int available[resource_count];
     int maximum[customer_count][resource_count];
-    // read_file("sample4_in.txt", maximum);
-    read_file("test_input.txt", maximum);
+    read_file("sample4_in.txt", maximum);
+    //read_file("test_input.txt", maximum);
 
     int allocation[customer_count][resource_count];
     int need[customer_count][resource_count];

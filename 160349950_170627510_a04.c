@@ -147,6 +147,10 @@ Fills the allocation array, modifies need
 */
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     int thread = cmd_res[0];
+    if (thread > proc_count){
+        printf("Thread/Customer out of range\n");
+        return 1;
+    }
     int request[res_count];
     int r;
     // Create request array
@@ -232,8 +236,34 @@ Releases resources
 */
 int release_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
     printf("Test resource release\n");
-    output_data(res_count, proc_count, available, allocation, need, maximum);
-    return 1;
+    int thread = cmd_res[0];
+    if (thread > proc_count){
+        printf("Thread/Customer out of range\n");
+        return 1;
+    }
+    int release[res_count];
+    int r;
+    
+    // Create release array
+    for (r=1; r<=res_count; r++){
+        release[r-1] = cmd_res[r];
+    }
+
+    // Check if release > allocated
+    for (r = 0; r < res_count; r++){
+        if (release[r] > allocation[thread][r]){
+            printf("Error: Cannot release more resources than currently allocated\n");
+            return 1;
+        }
+    }
+
+    // Release resources
+    for (r = 0; r < res_count; r++){
+        allocation[thread][r] -= release[r];
+        available[r] = available[r] + release[r];
+        need[thread][r] += release[r];
+    }
+    return 0;
 }
 
 /*

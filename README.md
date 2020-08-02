@@ -8,15 +8,12 @@ Assignment 4 for CP386 Spring 2020.
 To install, please clone the repository and save it locally. You should have a zip folder that incldues everything you need. Unzip this folder before you try to run anything. To see how to run, please visit the 'Code Examples' section below.
 
 #### Screenshots:
-1. Request:
-    ![Request](/images/request.png)
+![Request](/images/request.png)
 
-2. Run:
-   ![Run1](/images/run1.png)
-   ![Run2](/images/run2.png)
-   
-3. *:
-   ![*](/images/star.png)
+![Run1](/images/run1.png)
+![Run2](/images/run2.png)
+
+![*](/images/star.png)
 
 #### Contribution:
 * <pre>main:             Ryan Karumanchery & Ramandeep Saini</pre>

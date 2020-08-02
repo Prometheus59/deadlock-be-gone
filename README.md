@@ -5,16 +5,23 @@ In this assignmnet we try to practice the concept of deadlock avoidance.
 Assignment 4 for CP386 Spring 2020.
   
 #### Intstallation:
+To install, please clone the repository and save it locally. You should have a zip folder that incldues everything you need. Unzip this folder before you try to run anything. To see how to run, please visit the 'Code Examples' section below.
 
 #### Screenshots:
+![Request](/images/request.png)
+![Release](/images/release.png)
+![Run1](/images/run1.png)
+![Run2](/images/run2.png)
+
+![*](/images/star.png)
 
 #### Contribution:
 * <pre>main:             Ryan Karumanchery & Ramandeep Saini</pre>
 * <pre>read_file:        Ramandeep Saini</pre>
 * <pre>request_res:      Ryan Karumanchery</pre>
-* <pre>release_res:      Ramandeep Saini</pre>
+* <pre>release_res:      Ryan Karumanchery & Ramandeep Saini</pre>
 * <pre>run:              Ryan Karumanchery</pre>
-* <pre>output_data:      Ramandeep Saini</pre>
+* <pre>output_data:      Ryan Karumanchery</pre>
 * <pre>run_thread:       Ryan Karumanchery</pre>
 * <pre>safety_algorithm: Ryan Karumanchery</pre>
 
@@ -30,11 +37,10 @@ Assignment 4 for CP386 Spring 2020.
 
 #### Tests:
 Please see screenshots.
+Two files used for testing data are avaible in the installed folder.
 
 #### Code Example:
 
 #### Authors:
 * Ryan Karumanchery
 * Ramandeep Saini
-
-#### Credits:

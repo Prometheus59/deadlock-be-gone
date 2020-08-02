@@ -48,10 +48,6 @@ Please see screenshots.
 Two files used for testing data are avaible in the installed folder.
 
 #### Code Example:
-1. Enter your terminal and navigate to the location where you installed the file.
-2. Call <pre>make</pre> to complie the program.
-3. You now have a few optiions:
-
 Command for requesting resources.
 <pre>Enter Command: RQ 0 3 1 2 1</pre>
 

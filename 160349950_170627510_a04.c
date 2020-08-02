@@ -19,7 +19,7 @@ sem_t semaphore;
 
 typedef struct thread
 {
-    int tid;
+    int thread_index;
     pthread_t handle;
 } Thread;
 
@@ -37,10 +37,9 @@ int main(int argc, char* argv[]) {
     char rel[] = "RL";
     char execute[] = "Run";
     char star[] = "*";
-    // Initialize Threads
-    Thread* threads = NULL;
-    sem_init(&semaphore, 0, 1);
 
+    // initialize semaphore
+    sem_init(&semaphore, 0, 1);
 
     int available[resource_count];
     int maximum[customer_count][resource_count];
@@ -307,11 +306,16 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
         printf(" %d", need[thread_index][r]);
         need[thread_index][r] = 0;
     }
-    // TODO: Add actual thread handling here
-    printf("\n        Thread has started\n        Thread has finished\n        Thread is releasing resources\n");
+
+    sem_wait(&semaphore);
+    printf("\n        Thread has started");
+    sem_post(&semaphore);
+    printf("\n        Thread has finished\n");
+    printf("        Thread is releasing resources\n");
 
     // TODO: Create and add relevant values to a cmd_res[] for release_res()
     // release_res();
+    
     printf("        Now available:");
     for (r = 0; r < res_count; r++) {
         available[r] = available[r] + allocation[thread_index][r];

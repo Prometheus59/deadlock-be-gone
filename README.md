@@ -33,7 +33,7 @@ To install, please clone the repository and save it locally. You should have a z
 * <pre>request_res:      Request resources.</pre>        
 * <pre>release_res:      Release resources.</pre>
 * <pre>run:              Runs all threads.</pre>     
-* <pre>output_data:      Outputs Available resources, maximum resources, allocation, and resources needed.</pre>
+* <pre>output_data:      Outputs available resources, maximum resources, allocation, and resources needed.</pre>
 * <pre>run_thread:       Runs a thread.</pre>
 * <pre>safety_algorithm: Algorithm to determine if state is safe.</pre>
 
@@ -42,6 +42,22 @@ Please see screenshots.
 Two files used for testing data are avaible in the installed folder.
 
 #### Code Example:
+1. Enter your terminal and navigate to the location where you installed the file.
+2. Call <pre>make</pre> to complie the program.
+3. You now have a few optiions:
+
+Command for requesting resources.
+<pre>Enter Command: RQ 0 3 1 2 1</pre>
+
+Command for requesting resources.
+<pre>Enter Command: RL 0 1 1 1 1</pre>
+
+Command for running threads.
+<pre>Enter Command: Run</pre>
+
+Command for outputting available resources, maximum 
+resources, allocation, and resources needed.
+<pre>Enter Command: *</pre>
 
 #### Authors:
 * Ryan Karumanchery

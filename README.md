@@ -7,14 +7,22 @@ Assignment 4 for CP386 Spring 2020.
 #### Intstallation:
 
 #### Screenshots:
+1. Request:
+    ![Request](/images/request.png)
+2. Release:
+   ![Release](/images/release.png)
+3. Run:
+   ![Run](/images/run.png)
+4. *:
+   ![*](/images/star.png)
 
 #### Contribution:
 * <pre>main:             Ryan Karumanchery & Ramandeep Saini</pre>
 * <pre>read_file:        Ramandeep Saini</pre>
 * <pre>request_res:      Ryan Karumanchery</pre>
-* <pre>release_res:      Ramandeep Saini</pre>
+* <pre>release_res:      Ryan Karumanchery & Ramandeep Saini</pre>
 * <pre>run:              Ryan Karumanchery</pre>
-* <pre>output_data:      Ramandeep Saini</pre>
+* <pre>output_data:      Ryan Karumanchery</pre>
 * <pre>run_thread:       Ryan Karumanchery</pre>
 * <pre>safety_algorithm: Ryan Karumanchery</pre>
 

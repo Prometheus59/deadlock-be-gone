@@ -51,7 +51,7 @@ Two files used for testing data are avaible in the installed folder.
 Command for requesting resources.
 <pre>Enter Command: RQ 0 3 1 2 1</pre>
 
-Command for requesting resources.
+Command for releasing resources.
 <pre>Enter Command: RL 0 1 1 1 1</pre>
 
 Command for running threads.

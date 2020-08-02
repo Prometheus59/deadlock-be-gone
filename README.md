@@ -10,12 +10,12 @@ To install, please clone the repository and save it locally. You should have a z
 #### Screenshots:
 1. Request:
     ![Request](/images/request.png)
-2. Release:
-   ![Release](/images/release.png)
-3. Run:
+
+2. Run:
    ![Run1](/images/run1.png)
    ![Run2](/images/run2.png)
-4. *:
+   
+3. *:
    ![*](/images/star.png)
 
 #### Contribution:

@@ -44,7 +44,6 @@ int main(int argc, char* argv[]) {
     int customer_count = 5;
     printf("Resource count is %d\n", resource_count);
     printf("Number of Customers: %d\n", customer_count);
-
     // User input storage
     char cmd[3];
     int cmd_res[4];
@@ -53,15 +52,12 @@ int main(int argc, char* argv[]) {
     char rel[] = "RL";
     char execute[] = "Run";
     char star[] = "*";
-
     // initialize semaphore
     sem_init(&semaphore, 0, 1);
 
     int available[resource_count];
     int maximum[customer_count][resource_count];
     read_file("sample4_in.txt", maximum);
-    //read_file("test_input.txt", maximum);
-
     int allocation[customer_count][resource_count];
     int need[customer_count][resource_count];
 
@@ -95,7 +91,6 @@ int main(int argc, char* argv[]) {
         printf("\nEnter Command: ");
         char buffer[BUFFERSIZE];
         fgets(buffer, BUFFERSIZE, stdin);
-        // printf("%s", buffer);
         const char* token;
         const char* delim = "\n\t ";
         int i = 0;
@@ -108,7 +103,6 @@ int main(int argc, char* argv[]) {
                 continue;
             } else {
                 cmd_res[i - 1] = atoi(token);
-                //printf("cmd_res[i] for i=%d is %d\n", i - 1, cmd_res[i - 1]);
                 token = strtok(NULL, delim);
                 i++;
             }
@@ -172,7 +166,6 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
     //printf("Request Array for thread %d\n", thread);
     for (r = 1; r <= res_count; r++) {
         request[r - 1] = cmd_res[r];
-        //printf("%d ", request[r - 1]);
     }
     // Check if request > required
     for (r = 0; r < res_count; r++) {
@@ -188,7 +181,6 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
             return 1;
         }
     }
-
     // Pretend allocate resources to customer/thread
 
     // Make copy arrays

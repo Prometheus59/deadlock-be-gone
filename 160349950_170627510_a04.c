@@ -24,7 +24,7 @@
 
 #define BUFFERSIZE 15
 int request_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
-int release_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);  //TODO: May not need all of these params
+int release_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][4]);
 void run_thread(int thread_index, int res_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
 void run(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
 void output_data(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]);
@@ -92,7 +92,6 @@ int main(int argc, char* argv[]) {
 
     // Main function loop
     while (1) {
-        // TODO: Find out why a command is sometimes printed x2 w/ last digit of first command == cmd (ex. RQ 0 10 10 10 10)
         printf("\nEnter Command: ");
         char buffer[BUFFERSIZE];
         fgets(buffer, BUFFERSIZE, stdin);
@@ -358,9 +357,6 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
     sem_post(&semaphore);
     printf("\n        Thread has finished\n");
     printf("        Thread is releasing resources\n");
-
-    // TODO: Create and add relevant values to a cmd_res[] for release_res()
-    // release_res();
     
     printf("        Now available:");
     for (r = 0; r < res_count; r++) {
@@ -374,7 +370,6 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
 /*
 Algorithm to determine whether state is safe
 */
-// TODO: Change this algorithm?
 int safety_algorithm(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count], int sequence[]) {
     int index = 0;
     int k, i, j, y;

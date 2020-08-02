@@ -39,7 +39,7 @@ Run the program by typing `./test` followed by your resources, for example `./te
 * <pre>request_res:      Request resources.</pre>        
 * <pre>release_res:      Release resources.</pre>
 * <pre>run:              Runs all threads.</pre>     
-* <pre>output_data:      Outputs Available resources, maximum resources, allocation, and resources needed.</pre>
+* <pre>output_data:      Outputs available resources, maximum resources, allocation, and resources needed.</pre>
 * <pre>run_thread:       Runs a thread.</pre>
 * <pre>safety_algorithm: Algorithm to determine if state is safe.</pre>
 
@@ -48,6 +48,18 @@ Please see screenshots.
 Two files used for testing data are avaible in the installed folder.
 
 #### Code Example:
+Command for requesting resources.
+<pre>Enter Command: RQ 0 3 1 2 1</pre>
+
+Command for releasing resources.
+<pre>Enter Command: RL 0 1 1 1 1</pre>
+
+Command for running threads.
+<pre>Enter Command: Run</pre>
+
+Command for outputting available resources, maximum 
+resources, allocation, and resources needed.
+<pre>Enter Command: *</pre>
 
 #### Authors:
 * Ryan Karumanchery

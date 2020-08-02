@@ -235,7 +235,6 @@ int request_res(int cmd_res[], int res_count, int proc_count, int available[], i
 Releases resources
 */
 int release_res(int cmd_res[], int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
-    printf("Test resource release\n");
     int thread = cmd_res[0];
     if (thread > proc_count){
         printf("Thread/Customer out of range\n");
@@ -243,7 +242,7 @@ int release_res(int cmd_res[], int res_count, int proc_count, int available[], i
     }
     int release[res_count];
     int r;
-    
+
     // Create release array
     for (r=1; r<=res_count; r++){
         release[r-1] = cmd_res[r];
@@ -263,6 +262,7 @@ int release_res(int cmd_res[], int res_count, int proc_count, int available[], i
         available[r] = available[r] + release[r];
         need[thread][r] += release[r];
     }
+    printf("Release satisfied");
     return 0;
 }
 

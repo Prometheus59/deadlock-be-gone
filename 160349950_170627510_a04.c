@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(cmd, star) == 0) {
             output_data(resource_count, customer_count, available, allocation, need, maximum);
         } else {
-            printf("Invalid command: %s\nPlease enter RQ to request resources or RL to release resources\n", cmd);
+            printf("Invalid command: '%s'\nPlease enter RQ to request resources or RL to release resources\n", cmd);
         }
     }
 }
@@ -285,7 +285,6 @@ int release_res(int cmd_res[], int res_count, int proc_count, int available[], i
 Runs all threads, if safe sequence possible
 */
 void run(int res_count, int proc_count, int available[], int allocation[][res_count], int need[][res_count], int maximum[][res_count]) {
-    printf("Run functionn here\n");
     // Run safety algorithm to get sequence
     int sequence[proc_count];
     int val = safety_algorithm(res_count, proc_count, available, allocation, need, maximum, sequence);
@@ -349,7 +348,7 @@ void run_thread(int thread_index, int res_count, int available[], int allocation
     printf("\n        Needed: ");
     for (r = 0; r < res_count; r++) {
         printf(" %d", need[thread_index][r]);
-        need[thread_index][r] = 0;
+        need[thread_index][r] = maximum[thread_index][r];
     }
 
     sem_wait(&semaphore);
